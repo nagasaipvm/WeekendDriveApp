@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import NewRequest from './newRequest.jsx';
 import Textbox from'./textbox.jsx';
-import ChCheckbox from './checkbox.jsx';
 import Checkbox from './checkbox.jsx';
+import TextArea from './textarea.jsx';
 
 export default class RequestButtonsComponent extends React.Component {
   constructor() {
@@ -115,19 +115,80 @@ class Popup extends React.Component {
     "display": "block",
     "padding-top": "0px",
 
-   }
+   };
+   
     return (
       <div style={popupstyle}>
           <table align="top" width="100%">
           <tr><center> <h3>New Request Form</h3> </center> </tr>
           </table>
           <hr></hr>
-          <PopupDetails text={this.props.text} closePopup ={this.props.closePopup}></PopupDetails>
+          <PopupDetails text={this.props.text} closePopup ={this.props.closePopup} ></PopupDetails>
         </div>
     );
   }
 }
 class PopupDetails extends React.Component {
+  constructor()
+   {
+     super();
+     this.state = {
+      nop : "",
+      skillset : "",
+      location : "",
+      client :"",
+      project :"",
+      requiredskills : "",
+      goodtohaveskills : "",
+      additionaldetails : ""
+     };
+   }
+   handleNop(event)
+   {
+    this.setState({nop: event.target.value})
+   }
+   handleskillSet(event)
+   {
+    this.setState({skillset: event.target.value})
+   }
+   handleLocation(event)
+   {
+    this.setState({location: event.target.value})
+   }
+   handleClient(event)
+   {
+    this.setState({client: event.target.value})
+   }
+   handleProject(event)
+   {
+    this.setState({project: event.target.value})
+   }
+   handlerequiredskills(event)
+   {
+     this.setState({requiredskills: event.target.value})
+   }
+   handlegthskills(event)
+   {
+     this.setState({goodtohaveskills: event.target.value})
+   }
+   handleadddetails(event)
+   {
+     this.setState({additionaldetails: event.target.value})
+   }
+   submitRequest()
+   {
+     alert('going to submit the following data'+JSON.stringify(this.state));
+     return fetch('http://api.symfony-3.dev/app_dev.php/posts', {
+        method: 'POST',
+        mode: 'CORS',
+        body: JSON.stringify(this.state),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => {
+        return res;
+    }).catch(err => err);
+   }
   render() {
     var buttonStyle = {
       "height": "25px",
@@ -161,36 +222,25 @@ class PopupDetails extends React.Component {
     "backgroundColor":"#E8E8E8"
    }
 
-   var textareaStyle = {
-    "width": "100%",
-    "height": "50%",
-    "padding": "5px 5px",
-    "margin": "8px 0",
-    "display": "inline-block",
-    "border": "1px solid #ccc",
-    "border-radius": "4px",
-    "box-sizing": "border-box"
-   }
-
     return (
-      
+          <form>
           <table width="100%" style={tableStyle} cols="4"> 
            <tr>
               <td width="5%"> </td>
               <td width="45%">Number of positions </td>
-              <td width="25%"> <Textbox id="nop"> </Textbox> </td>
+              <td width="25%"> <Textbox name="nop" value="{this.state.nop}" onChange ={this.handleNop.bind(this)}> </Textbox> </td>
               <td width="25%"></td>
            </tr>
            <tr>
               <td width="5%"> </td>
               <td width="45%">Skill Set </td>
-              <td width="25%"> <Textbox id="skillSet"> </Textbox> </td>
+              <td width="25%"> <Textbox id="skillset" name="skillset" value="{this.state.skillset}" onChange ={this.handleskillSet.bind(this)}> </Textbox> </td>
               <td width="25%"></td>
            </tr>
            <tr>
               <td width="5%"> </td>
               <td width="45%">Location </td>
-              <td width="25%"> <Textbox id="location"> </Textbox> </td>
+              <td width="25%"> <Textbox id="location" name="location" value="{this.state.location}" onChange ={this.handleLocation.bind(this)}> </Textbox> </td>
               <td width="25%"></td>
            </tr>
            <tr>
@@ -202,13 +252,13 @@ class PopupDetails extends React.Component {
            <tr>
               <td width="5%"> </td>
               <td width="45%">End Client </td>
-              <td width="25%"> <Textbox id="client"/></td>
+              <td width="25%"> <Textbox id="client" name="client" value="{this.state.client}" onChange ={this.handleClient.bind(this)}/></td>
               <td width="25%"></td>
            </tr>
            <tr>
               <td width="5%"> </td>
               <td width="45%">Project (For Billing the interview process) </td>
-              <td width="25%"> <Textbox id="project"/></td>
+              <td width="25%"> <Textbox id="project" name="project" value="{this.state.project}" onChange ={this.handleProject.bind(this)}/></td>
               <td width="25%"></td>
            </tr>
            <tr>
@@ -224,19 +274,19 @@ class PopupDetails extends React.Component {
            </tr>
            <tr>
               <td width="5%"> </td>
-              <td colSpan="2">Level Split up </td>
+              <td colSpan="2"> </td>
               <td width="25%"></td>
            </tr>
            <tr>
               <td width="5%"> </td>
               <td width="45%">Required Skills </td>
-              <td width="25%"> <Textbox id="RSkills"/></td>
+              <td width="25%"> <Textbox id="requiredskills" name="requiredskills" value="{this.state.requiredskills}" onChange={this.handlerequiredskills.bind(this)}/></td>
               <td width="25%"></td>
            </tr>
            <tr>
               <td width="5%"> </td>
               <td width="45%">Good to Have Skills </td>
-              <td width="25%"> <Textbox id="GTHSkills"/></td>
+              <td width="25%"> <Textbox id="goodtohaveskills" name="goodtohaveskills" value="{this.state.goodtohaveskills}" onChange={this.handlegthskills.bind(this)}/></td>
               <td width="25%"></td>
            </tr>
            <tr>
@@ -247,7 +297,7 @@ class PopupDetails extends React.Component {
            </tr>
            <tr>
               <td width="5%"> </td>
-              <td colSpan="2">  <textarea rows="8" cols="100" style={textareaStyle}> </textarea></td>
+              <td colSpan="2">  <TextArea id ="additionaldetails" name ="additionaldetails" value ="{this.state.additionaldetails}" onChange={this.handleadddetails.bind(this)}> </TextArea></td>
               <td width="25%"></td>
            </tr>
            <tr>
@@ -256,7 +306,7 @@ class PopupDetails extends React.Component {
            <table width="100%" >
                   <tr>
                     <td> <button style ={buttonStyle}>SAVE</button> </td>
-                    <td> <button style ={buttonStyle}>SUBMIT</button> </td>
+                    <td> <button style ={buttonStyle} onClick={this.submitRequest.bind(this)}>SUBMIT</button> </td>
                     <td> <button style ={buttonStyle} onClick={this.props.closePopup}>CANCEL</button></td>
                   </tr>
                  </table>
@@ -264,6 +314,7 @@ class PopupDetails extends React.Component {
            <td width="25%"></td>
            </tr>
            </table>
+           </form>
 
     );
   }

@@ -13,7 +13,7 @@ export default class Textbox extends React.Component {
         "box-sizing": "border-box"
        }
       return (
-        <input type="text" style ={textboxStyle} id={this.props.id} ></input>
+        <input type="text" style ={textboxStyle} id={this.props.id} onChange ={this.props.onChange}></input>
         
       );
    }

@@ -10,7 +10,7 @@ export default class AllRequestsDetails extends React.Component {
    }
    componentDidMount()
    {
-     fetch('https://jsonplaceholder.typicode.com/todos')
+     fetch('https://jsonplaceholder.typicode.com/todos/')
      .then(result => result.json())
      .then(results => this.setState({results})
      )
